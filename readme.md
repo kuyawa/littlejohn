@@ -12,7 +12,7 @@ LittleJohn is a decentralized exchange built on Binance Smart Chain where you ca
 
 ![wallet](media/wallet.jpg)
 
-In order to use LittleJohn you need to install [Binance Smart Chain Wallet](https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp) extension for Brave, Chrome and Firefox, unfortunately Safari and Edge extensions are not ready yet. So go get the wallet at the [Chrome Store](https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp) and install it in your browser of choice.
+In order to use LittleJohn you need to install [Binance Smart Chain Wallet](https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp) extension for Brave, Chrome and Firefox, unfortunately Safari and Edge extensions are not ready yet. So go get the wallet at the [Chrome Store](https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp) and install it in your browser of choice. If you don't have Binance Wallet you can use Metamask too!
 
 Now you can use LittleJohn at its fullest and you'll quickly learn how easy it is to interact with the DApp since it has been designed to be a one-click trading experience. Just select the currency you'd like to buy or sell then enter the amount in the form, the price will reflect the current rate at which you'll trade your currency, then click 'TRADE'. Your Binance Wallet will pop up asking to confirm a transaction and you should click 'Approve' in order to perform a trade. That's it, you will get fiat tokens in your wallet as you can confirm in your new balance.
 
