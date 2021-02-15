@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LittleJohn</title>
+	<meta charset="utf-8">
+    <meta name="application-name" content="LittleJohn">
+    <meta name="viewport" content="initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#111111">
+    <link rel="stylesheet" type="text/css" href="/styles/markets.css">
+    <link rel="icon" href="/media/mobile-icon.png">
+    <link rel="icon" sizes="192x192" href="/media/mobile-icon-192.png">
+    <link rel="apple-touch-icon" href="/media/mobile-icon-apple.png"/>
+</head>
+<body class="dark-mode">
+<header>
+    <wrap>
+        <div id="bnbprice">Loading resources, please wait...</div>
+        <div class="switch">
+            <div class="themer">
+                <input type="checkbox" id="theme" name="theme" class="theme" checked onchange="onTheme()">
+                <label class="theme-label" for="theme">
+                    <div class="theme-inner"></div>
+                    <div class="theme-switch"></div>
+                </label>
+            </div>
+        </div>
+        <div id="toplogo">
+            <a href="."><img id="logo" src="/media/logo.png"></a>
+            <div id="toptxt">
+                <h1><a href=".">LittleJohn<x>.exchange</x></a></h1> 
+                <h2>Bigger Than Robin Hood</h2>
+            </div>
+        </div>
+        <div id="topside">
+            <!-- <img id="myadr" src="/media/wallet.png" onclick="onWallet()"> -->
+            <div id="topadr">
+                <button id="connect" onclick="onWallet()">CONNECT WALLET</button> 
+                <li id="user-address">Wallet not connected</span></li> 
+                <li id="user-balance">Balance 0.0000</li>
+            </div>
+        </div>
+    </wrap>
+</header>
+
+<div class="nomobile">Not available on mobile</div>
+
+<div id="markets">
+    <wrap>
+        <div id="sidebar">
+            <div id="coins-wrap">
+                <table id="coins">
+                    <thead>
+                        <tr> <th onclick="sortTable(event,0,0)">Symbol</th> <th onclick="sortTable(event,1,2)">BNB Price</th> <th onclick="sortTable(event,2,2)">USD Price</th> <th onclick="sortTable(event,3,2)">Change 24h</th> </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="USD" class="select"><td>USD</td><td class="price-up" id="usd-bnb">0.00</td><td class="go-no" id="usd-usd">0.00</td><td class="go-no" id="usd-pct">0.00%</td></tr>
+                        <tr id="AUD"><td>AUD</td><td class="price-up" id="aud-bnb">0.00</td><td class="go-no" id="aud-usd">0.00</td><td class="go-no" id="aud-pct">0.00%</td></tr>
+                        <tr id="BRL"><td>BRL</td><td class="price-up" id="brl-bnb">0.00</td><td class="go-no" id="brl-usd">0.00</td><td class="go-no" id="brl-pct">0.00%</td></tr>
+                        <tr id="CAD"><td>CAD</td><td class="price-up" id="cad-bnb">0.00</td><td class="go-no" id="cad-usd">0.00</td><td class="go-no" id="cad-pct">0.00%</td></tr>
+                        <tr id="CHF"><td>CHF</td><td class="price-up" id="chf-bnb">0.00</td><td class="go-no" id="chf-usd">0.00</td><td class="go-no" id="chf-pct">0.00%</td></tr>
+                        <tr id="CNY"><td>CNY</td><td class="price-up" id="cny-bnb">0.00</td><td class="go-no" id="cny-usd">0.00</td><td class="go-no" id="cny-pct">0.00%</td></tr>
+                        <tr id="EUR"><td>EUR</td><td class="price-up" id="eur-bnb">0.00</td><td class="go-no" id="eur-usd">0.00</td><td class="go-no" id="eur-pct">0.00%</td></tr>
+                        <tr id="GBP"><td>GBP</td><td class="price-up" id="gbp-bnb">0.00</td><td class="go-no" id="gbp-usd">0.00</td><td class="go-no" id="gbp-pct">0.00%</td></tr>
+                        <tr id="HKD"><td>HKD</td><td class="price-up" id="hkd-bnb">0.00</td><td class="go-no" id="hkd-usd">0.00</td><td class="go-no" id="hkd-pct">0.00%</td></tr>
+                        <tr id="INR"><td>INR</td><td class="price-up" id="inr-bnb">0.00</td><td class="go-no" id="inr-usd">0.00</td><td class="go-no" id="inr-pct">0.00%</td></tr>
+                        <tr id="JPY"><td>JPY</td><td class="price-up" id="jpy-bnb">0.00</td><td class="go-no" id="jpy-usd">0.00</td><td class="go-no" id="jpy-pct">0.00%</td></tr>
+                        <tr id="KRW"><td>KRW</td><td class="price-up" id="krw-bnb">0.00</td><td class="go-no" id="krw-usd">0.00</td><td class="go-no" id="krw-pct">0.00%</td></tr>
+                        <tr id="RUB"><td>RUB</td><td class="price-up" id="rub-bnb">0.00</td><td class="go-no" id="rub-usd">0.00</td><td class="go-no" id="rub-pct">0.00%</td></tr>
+                    </tbody>
+                </table>
+                <div id="updated">
+                    <span id="update-time">Updated every hour</span> 
+                </div>
+            </div>
+
+        </div>
+
+        <div id="content">
+            <div id="chart-area">
+                <div id="asset-info">
+                    <div class="cell">
+                        <label>Open</label>
+                        <span id="price-open">0.00000000</span>
+                    </div>
+                    <div class="cell">
+                        <label>Close</label>
+                        <span id="price-close">0.00000000</span>
+                    </div>
+                    <div class="cell">
+                        <label>High</label>
+                        <span id="price-high">0.00000000</span>
+                    </div>
+                    <div class="cell">
+                        <label>Low</label>
+                        <span id="price-low">0.00000000</span>
+                    </div>
+                </div>
+                <div id="chart"></div>
+            </div>
+            <div id="chart-info">
+                <h1 id="chart-label">BNB/USD</h1> 
+                <div id="chart-menu"> 
+                    <button id="chart-action0" class="chart-action selected" onclick="onChartPeriod(0)">24 Hours</button>
+                    <button id="chart-action1" class="chart-action" onclick="onChartPeriod(1)">7 Days</button> 
+                    <button id="chart-action2" class="chart-action" onclick="onChartPeriod(2)">1 Month</button> 
+                </div> 
+            </div>
+
+            <div id="calc-area">
+                <div id="calculator">
+                    <h1>Trade <span id="calc-title">BNB for USD</span> <img id="switch" src="/media/switch.png" onclick="onSwitch()"></h1>
+                    <div id="calc-form">
+                        <li><label><span id="label-act1">Sell</span> <span id="label-base">BNB</span>:</label><input type="number" id="calc-base" value="1" tabindex="1" autocomplete="off" /></li>
+                        <li><label>Price <span id="label-price">BNB/USD</span>:</label><input type="textbox" id="calc-price" value="0" disabled/></li>
+                        <li><label><span id="label-act2">Buy</span> <span id="label-quote">USD</span>:</label><input type="number" id="calc-quote" value="50" tabindex="2" autocomplete="off" /></li>
+                        <li id="button-area"><button id="button-buy" onclick="onTrade()" tabindex="3">TRADE</button></li>
+                        <li id="warn"></li>
+                    </div>
+                </div>
+                <div id="indices">
+                    <h1 id="info-market">BNB/USD</h1>
+                    <li><label>Open:   </label><span id="info-open"  >0.0000</span></li>
+                    <li><label>Close:  </label><span id="info-close" >0.0000</span></li>
+                    <li><label>High:   </label><span id="info-high"  >0.0000</span></li>
+                    <li><label>Low:    </label><span id="info-low"   >0.0000</span></li>
+                    <li><label>Spread: </label><span id="info-spread">0.00% </span></li>
+                    <li><label>Change: </label><span id="info-change">0.00% </span></li>
+                </div>
+            </div>
+        </div>
+    </wrap>
+</div>
+
+<div id="info">
+    <wrap>
+        <div id="wallet">
+            <h1>Binance Wallet</h1>
+            <a href="https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp" target="_blank"><img id="wallet-pic" width="600px" height="375px" src="/media/wallet.jpg"></a>
+            <div id="wallet-info">
+                <p>In order to use LittleJohn you need to install <a href="https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp" target="_blank">Binance Smart Chain Wallet</a> extension for Brave, Chrome and Firefox, unfortunately Safari and Edge extensions are not ready yet. So go get the wallet at the <a href="https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp" target="_blank">Chrome Store</a> and install it in your browser of choice.</p>
+                <p>Now you can use LittleJohn at its fullest and you'll quickly learn how easy it is to interact with the DApp since it has been designed to be a one-click trading experience. Just select the currency you'd like to buy or sell then enter the amount in the form, the price will reflect the current rate at which you'll trade your currency, then click 'TRADE'. Your Binance Wallet will pop up asking to confirm a transaction and you should click 'Approve' in order to perform a trade. That's it, you will get fiat tokens in your wallet as you can confirm in your new balance.</p>
+                <p>Once you get your currencies you can send them to any person or business that takes fiat currencies as these tokens are backed by every single BNB traded for them. If you decide to sell your currencies then do the opposite transaction, sell your fiat and get BNB at market price. We collect 1% fee on every transaction for site maintenance and hosting costs.</p>
+                <h3>That's how easy it is to trade currencies in LittleJohn!</h3>
+            </div>
+        </div>
+        <div id="fiats">
+            <div id="fiat">
+                <h1>Fiat Tokens</h1>
+                <p>Fiat synthetic tokens are based on the BEP20 token specification, derived from ERC20 smart contracts they can be easily implemented in Binance Smart Chain Network and all Ethereum compatible networks.</p>
+                <p>In order to add fiat tokens to your Binance wallet, select the Assets panel and press the (+) button, then enter the token address as specified in this list and the wallet will autommatically fetch the token info. Once you click on the Add Asset button the token will appear on the list and the balance shown.</p>
+                <h3>Now you're ready to buy and sell fiat tokens on LittleJohn!</h3>
+            </div>
+            <div id="tokens">
+                <h1>Contract Addresses</h1>
+                <pre>AUD <a noref onclick="copyToClipboard(event)">0x65275d7d6Ba47E44f7163690cd7C91aE608177Dc</a> <a href="https://testnet.bscscan.com/address/0x65275d7d6Ba47E44f7163690cd7C91aE608177Dc" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>BRL <a noref onclick="copyToClipboard(event)">0xA9AB46C8eE740b4A833e0FDC2d3875c5065F25fd</a> <a href="https://testnet.bscscan.com/address/0xA9AB46C8eE740b4A833e0FDC2d3875c5065F25fd" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>CAD <a noref onclick="copyToClipboard(event)">0xD19527b8820e46D0B63F19A0D92A25C7FF1f7976</a> <a href="https://testnet.bscscan.com/address/0xD19527b8820e46D0B63F19A0D92A25C7FF1f7976" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>CHF <a noref onclick="copyToClipboard(event)">0xb0D82b45efE94d122dc4DEE1E36ecC4EfF4072Ff</a> <a href="https://testnet.bscscan.com/address/0xb0D82b45efE94d122dc4DEE1E36ecC4EfF4072Ff" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>CNY <a noref onclick="copyToClipboard(event)">0xE9867f79A87e33777B8C82A9fFaA8F1047B83247</a> <a href="https://testnet.bscscan.com/address/0xE9867f79A87e33777B8C82A9fFaA8F1047B83247" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>EUR <a noref onclick="copyToClipboard(event)">0x2ddd8bF596cfefE84584926a40D49eEfb8cb6a74</a> <a href="https://testnet.bscscan.com/address/0x2ddd8bF596cfefE84584926a40D49eEfb8cb6a74" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>GBP <a noref onclick="copyToClipboard(event)">0x7cDB80DDa34Aa315e45E38e07df719099ae4379F</a> <a href="https://testnet.bscscan.com/address/0x7cDB80DDa34Aa315e45E38e07df719099ae4379F" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>HKD <a noref onclick="copyToClipboard(event)">0x4d9c163BffFd0F0091922603433010a0F363746C</a> <a href="https://testnet.bscscan.com/address/0x4d9c163BffFd0F0091922603433010a0F363746C" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>INR <a noref onclick="copyToClipboard(event)">0x342CE2fB52Fb3962630E6226b9a94D1cEedF24E3</a> <a href="https://testnet.bscscan.com/address/0x342CE2fB52Fb3962630E6226b9a94D1cEedF24E3" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>JPY <a noref onclick="copyToClipboard(event)">0xbFcbf3260e9198e0CFD153F1E353D4b9B1477c78</a> <a href="https://testnet.bscscan.com/address/0xbFcbf3260e9198e0CFD153F1E353D4b9B1477c78" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>KRW <a noref onclick="copyToClipboard(event)">0xE4AE08CbCed660C1a2a6522187aaEd22131CFcf8</a> <a href="https://testnet.bscscan.com/address/0xE4AE08CbCed660C1a2a6522187aaEd22131CFcf8" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>RUB <a noref onclick="copyToClipboard(event)">0x0B416A47bC4d5718CF9925Fc3712e9e98940246a</a> <a href="https://testnet.bscscan.com/address/0x0B416A47bC4d5718CF9925Fc3712e9e98940246a" target="_blank"><img src="/media/openurl.png"></a></pre>
+                <pre>USD <a noref onclick="copyToClipboard(event)">0x20f0ed2cCFa648C0c784f0A00E2408A7c3393fc2</a> <a href="https://testnet.bscscan.com/address/0x20f0ed2cCFa648C0c784f0A00E2408A7c3393fc2" target="_blank"><img src="/media/openurl.png"></a></pre>
+            </div>
+        </div>
+    </wrap>
+</div>
+<footer>
+    <wrap>
+        <h2>@2021 All rights reserved <b>LittleJohn</b></h2>
+    </wrap>
+</footer>
+
+<script src="/scripts/web3.min.js"></script>
+<script src="/scripts/forex-abi.js"></script>
+<script src="/scripts/wallet.js"></script>
+<script src="/scripts/chart.js"></script>
+<script src="/scripts/main.js"></script>
+</body>
+</html>
