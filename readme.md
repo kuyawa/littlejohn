@@ -1,12 +1,12 @@
-!#[logo](media/logo.png)
+![logo](media/logo.png)
 # LittleJohn Exchange
 ## Bigger than Robin Hood
 
-!#[webshot](media/webshot.jpg)
+![webshot](media/webshot.jpg)
 
 LittleJohn is a decentralized exchange built on Binance Smart Chain where you can trade the top fiat currencies in the world in just one click, no KYC, no market manipulation, no blocking trades, the way ot should be.
 
-!#[wallet](media/wallet.jpg)
+![wallet](media/wallet.jpg)
 
 In order to use LittleJohn you need to install [Binance Smart Chain Wallet](https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp) extension for Brave, Chrome and Firefox, unfortunately Safari and Edge extensions are not ready yet. So go get the wallet at the [Chrome Store](https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp) and install it in your browser of choice.
 
