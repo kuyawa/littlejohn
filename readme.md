@@ -1,10 +1,14 @@
 ![logo](media/logo.png)
+
 # LittleJohn Exchange
+
 ## Bigger than Robin Hood
+
+Visit us at [https://littlejohn.exchange](https://littlejohn.exchange)
 
 ![webshot](media/webshot.jpg)
 
-LittleJohn is a decentralized exchange built on Binance Smart Chain where you can trade the top fiat currencies in the world in just one click, no KYC, no market manipulation, no blocking trades, the way ot should be.
+LittleJohn is a decentralized exchange built on Binance Smart Chain where you can trade the top fiat currencies in the world in just one click, no KYC, no market manipulation, no blocking trades, the way it should be.
 
 ![wallet](media/wallet.jpg)
 
