@@ -8,7 +8,7 @@ Visit us at [https://littlejohn.exchange](https://littlejohn.exchange)
 
 ![webshot](media/webshot.jpg)
 
-LittleJohn is a decentralized exchange built on Binance Smart Chain where you can trade the top fiat currencies in the world in just one click, no KYC, no market manipulation, no blocking trades, the way it should be.
+LittleJohn is a decentralized exchange built on Binance Smart Chain where you can trade the top fiat currencies in the world with just one click, no KYC, no market manipulation, no blocking trades, the way it should be.
 
 ![wallet](media/wallet.jpg)
 
@@ -28,3 +28,12 @@ Fiat synthetic tokens are based on the BEP20 token specification, derived from E
 In order to add fiat tokens to your Binance wallet, select the Assets panel and press the (+) button, then enter the token address as specified in this list and the wallet will autommatically fetch the token info. Once you click on the Add Asset button the token will appear on the list and the balance shown.
 
 **Now you're ready to buy and sell fiat tokens on LittleJohn!**
+
+
+## LittleJohn Video
+
+
+[![video](https://www.youtube.com/watch?v=X7UDRCKiQ5s)](https://www.youtube.com/watch?v=X7UDRCKiQ5s)
+
+Visit us at https://littlejohn.exchange
+
