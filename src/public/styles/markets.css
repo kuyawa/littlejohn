@@ -196,11 +196,11 @@ input[type=number] { -moz-appearance: textfield; }
 #info { }
 #info wrap {  }
 #info p { color: var(--color-secondary); }
-#wallet { float: left; width: 600px; height: 840px; padding: 30px; background-color: var(--back-secondary); border: 1px solid var(--border-primary); }
+#wallet { float: left; width: 600px; height: 880px; padding: 30px; background-color: var(--back-secondary); border: 1px solid var(--border-primary); }
 #wallet h1 { text-align: center; }
 #wallet a { color: var(--link-highlight); }
 #wallet-pic { width: 600px; }
-#fiats  { float: left; width: 476px; height: 840px;  margin-left: 20px; padding: 30px; background-color: var(--back-secondary); border: 1px solid var(--border-primary); }
+#fiats  { float: left; width: 476px; height: 880px;  margin-left: 20px; padding: 30px; background-color: var(--back-secondary); border: 1px solid var(--border-primary); }
 #fiats h1  { text-align: center; }
 #tokens { margin-top: 80px; }
 #fiats h3  { text-align: center; }

@@ -21,28 +21,35 @@ function hex(num) { return '0x'+(num).toString(16); }
 async function initWallet() {
     console.log('Wallet starting...')
     if (window.BinanceChain) {
-    	console.log('window.binance')
-	 	bsc = window.BinanceChain;
-		//$('flipper').checked = (bsc.chainId == 56);
+    	console.log('Binance wallet!')
+	 	Binance.wallet = window.BinanceChain;
+		//$('flipper').checked = (Binance.wallet.chainId == 56);
 	 	setListeners();
 	 	//setNetwork();
 	 	loadWallet();
-    } else {
-    	console.log('BinanceChain not available')
+	} else if(window.ethereum && window.ethereum.isMetaMask){
+    	console.log('Metamask!');
+    	Binance.wallet = window.ethereum;
+    	//window.ethereum.enable();
+	 	setListeners();
+	 	//setNetwork();
+	 	loadWallet();
+	} else {
+    	console.log('Binance Wallet not available')
     }
 }
 
 function setListeners() {
-	bsc.on('connect', onConnect);
-	bsc.on('disconnect', onDisconnect);
-	bsc.on('accountsChanged', onAccounts);
-	bsc.on('chainChanged', onChain);
-	bsc.on('message', onMessage);
+	Binance.wallet.on('connect', onConnect);
+	Binance.wallet.on('disconnect', onDisconnect);
+	Binance.wallet.on('accountsChanged', onAccounts);
+	Binance.wallet.on('chainChanged', onChain);
+	Binance.wallet.on('message', onMessage);
 	console.log('Listeners set');
 }
 
 async function setNetwork(chainId) {
-	if(!chainId){ chainId = bsc.chainId; }
+	if(!chainId){ chainId = Binance.wallet.chainId; }
 	Binance.mainnet  = (chainId == 56);
 	Binance.network  = Binance.mainnet ? 'bsc-mainnet' : 'bsc-testnet';
 	Binance.neturl   = Binance.mainnet ? MAINURL : TESTURL;
@@ -58,16 +65,14 @@ async function loadWallet() {
 	//console.log('WEB3', web3);
 	console.log('VER', web3.version)
 
-    if (window.BinanceChain) {
-    	//console.log('window.binance')
-	 	//bsc = window.BinanceChain;
-	 	if(bsc.isConnected()) { 
-	 		console.log('Already connected to', bsc.chainId==0x38?'MAINNET':'TESTNET', bsc.chainId); 
+    if (Binance.wallet) {
+	 	if(Binance.wallet.isConnected()) { 
+	 		console.log('Already connected to', Binance.wallet.chainId==0x38?'MAINNET':'TESTNET', Binance.wallet.chainId); 
 			getAccounts();
 			getAddress(getBalance);
 	 	} else {
 	 		console.log('Conecting...')
-			bsc.enable().then((err, accts) => { 
+			Binance.wallet.enable().then((err, accts) => { 
 				console.log('Enabled', err, accts)
 				getAccounts();
 				getAddress().then(adr=>{
@@ -77,7 +82,7 @@ async function loadWallet() {
 			});
 		}
     } else {
-    	console.log('BinanceChain not available')
+    	console.log('Binance Wallet not available')
     }
 }
 
@@ -86,7 +91,7 @@ async function onConnect(info) {
 	console.log('onConnect', info);
 	// info.chainId
 	setNetwork(info.chainId);
-	loadWallet();
+	//loadWallet();
 }
 
 async function onDisconnect(info) {
@@ -116,23 +121,9 @@ async function onMessage(info) {
 	console.log('onMessage', info)
 }
 
-/*
-function requestAccount() {
-    bsc.request({ method: 'eth_requestAccounts' }).then(onAccounts)
-    .catch(err => {
-      if (err.code === 4001) {
-        console.log('User rejected');
-        console.log('Please connect to Binance Wallet');
-      } else {
-        console.error('Connection error', err);
-      }
-    });
-}
-*/
-
 // Methods
 async function getAccounts() {
-	bsc.requestAccounts().then(accts => {
+	Binance.wallet.request({method: 'eth_requestAccounts'}).then(accts=>{
 		Binance.accounts = accts;
 		console.log('Accounts', accts)
 	}).catch(err => { 
@@ -142,20 +133,27 @@ async function getAccounts() {
 	});
 }
 
-async function getAddress(oncall) {
-	console.log('Get accounts...');
-	bsc.request({method: 'eth_requestAccounts'}).then(res=>{
-		console.log('Account', res);
-		Binance.myaccount = res[0];
+async function getAddress(callback) {
+	if(Binance.isMetamask){
+		Binance.myaccount = Binance.wallet.selectedAddress;
+		console.log('Account', Binance.myaccount);
 		$('user-address').innerHTML = 'Address: '+Binance.myaccount.substr(0,10); 
-		oncall(Binance.myaccount)
-	}).catch(err => { 
-		console.log('Error: Wallet not connected'); 
-		console.error(err) 
-		$('user-address').innerHTML = 'Wallet not connected'; 
-		$('user-balance').innerHTML = 'Balance: 0.0000 BNB'; 
-		oncall(null);
-	});
+		callback(Binance.myaccount);
+	} else {
+		console.log('Get accounts...');
+		Binance.wallet.request({method: 'eth_requestAccounts'}).then(res=>{
+			console.log('Account', res);
+			Binance.myaccount = res[0];
+			$('user-address').innerHTML = 'Address: '+Binance.myaccount.substr(0,10); 
+			callback(Binance.myaccount)
+		}).catch(err => { 
+			console.log('Error: Wallet not connected'); 
+			console.error(err) 
+			$('user-address').innerHTML = 'Wallet not connected'; 
+			$('user-balance').innerHTML = 'Balance: 0.0000 BNB'; 
+			callback(null);
+		});
+	}
 }
 
 async function getBalance(adr) {
@@ -166,32 +164,6 @@ async function getBalance(adr) {
 		$('user-address').innerHTML = 'Address: '+adr.substr(0,10); 
     	$('user-balance').innerHTML = 'Balance: '+bal+' BNB';
 	});
-}
-
-async function attachWallet(wallet, address, reject){
-    console.log('Attach', wallet, address);
-    if (!address) { address = Binance.myaccount; }
-    console.log('-Address:', address);
-    wallet.defaultSigner = address;
-    wallet.signTransaction = async function(tx, ad, rj, x) {
-    	//return new Promise(async (resolve, reject) => {
-    	//	try { }
-
-    	console.log('--Address:', address);
-        //console.log('TX', tx);
-        console.log('Artifacts', tx, ad, rj, x);
-        try {
-            tx.from = address;
-            let res = await bsc.bnbSign(tx, reject);
-            //let res = await bsc.bnbSign(tx, ad, rj, x);
-            console.log('Tx signed:', res);
-            return res;
-        } catch (ex) {
-            console.log('Error signing tx:', ex);
-            if(reject) { reject(tx, ex); }
-        }
-        return tx;
-    }
 }
 
 async function getGasPrice() {
@@ -225,8 +197,8 @@ async function tradeBuy(token, amount, accept, reject, confirm) {
 	console.log('-- Buy token', token, amount)
 	let abi = ForexABI.abi;
     //let web = new Web3(window.web3.currentProvider);
-    let web = new Web3(Binance.neturl);
-	let ctr = new web.eth.Contract(abi, token);
+    //let web = new Web3(Binance.neturl);
+	let ctr = new web3.eth.Contract(abi, token);
 	let wei = amount * 10**18;
 	let wex = '0x'+(BigInt(wei).toString(16));
 	console.log('Wei', wei);
@@ -244,11 +216,7 @@ async function tradeBuy(token, amount, accept, reject, confirm) {
 		];
 		console.log('Params', params);
 
-	  	//BinanceChain.on('error', function(error){ console.log('error', error); })
-		//BinanceChain.on('transactionHash', function(transactionHash){ console.log('hash', transactionHash); })
-		//BinanceChain.on('receipt', function(receipt){ console.log(receipt); })
-		//BinanceChain.on('confirmation', function(confirmationNumber, receipt){ console.log('conf', confirmationNumber, receipt) })
-		BinanceChain.request({ method: 'eth_sendTransaction', params }).then((result) => {
+		Binance.wallet.request({ method: 'eth_sendTransaction', params }).then((result) => {
 	    	console.log('Result', result);
     		//inf = { tx: result };
 	    	accept(result);
@@ -257,7 +225,13 @@ async function tradeBuy(token, amount, accept, reject, confirm) {
 		}).catch((error) => {
 	    	console.log('Error', error);
     		//inf = { error: error.error };
-    		reject(error.error);
+    		let msg = '';
+    		if(error.message){ 
+    			if(error.message.indexOf(':')>0) { msg=error.message.split(':')[1]; } 
+    			else { nsg = error.msg; }
+    		} else if(error.error){ msg = error.error; }
+    		else { msg = 'Unknown error'; }
+    		reject(msg);
     		return;
 	  	});
     } catch(ex) {
@@ -270,8 +244,8 @@ async function tradeSell(token, amount, accept, reject, confirm) {
 	console.log('-- Sell token', token, amount)
 	let abi = ForexABI.abi;
     //let web = new Web3(window.web3.currentProvider);
-    let web = new Web3(Binance.neturl);
-	let ctr = new web.eth.Contract(abi, token);
+    //let web = new Web3(Binance.neturl);
+	let ctr = new web3.eth.Contract(abi, token);
 	let wei = BigInt(amount * 10**18).toString();
 	console.log('Wei', wei);
     try {
@@ -295,7 +269,7 @@ async function tradeSell(token, amount, accept, reject, confirm) {
 		//params.gasPrice = hex(gas.gasPrice);
 		//params.gas      = hex(gas.gasLimit);
 
-		BinanceChain.request({ method: 'eth_sendTransaction', params }).then((result) => {
+		Binance.wallet.request({ method: 'eth_sendTransaction', params }).then((result) => {
 	    	console.log('Result', result);
     		//inf = { tx: result };
 	    	accept(result);
@@ -304,7 +278,13 @@ async function tradeSell(token, amount, accept, reject, confirm) {
 		}).catch((error) => {
 	    	console.log('Error', error);
     		//inf = { error: error.error };
-    		reject(error.error);
+    		let msg = '';
+    		if(error.message){ 
+    			if(error.message.indexOf(':')>0) { msg=error.message.split(':')[1]; } 
+    			else { nsg = error.msg; }
+    		} else if(error.error){ msg = error.error; }
+    		else { msg = 'Unknown error'; }
+    		reject(msg);
     		return;
 	  	});
     } catch(ex) {
@@ -325,33 +305,6 @@ function waitForReceipt(hash, callback, n=0) {
 	    }
 	});
 }
-
-async function switchNetwork(chainName) {
-	//chainId = $('flipper').checked ? 56 : 97;
-	//chainName = $('flipper').checked ? 'bsc-mainnet' : 'bsc-testnet';
-	window.BinanceChain.switchNetwork(chainName).then(info=>{
-		console.log('Switch', info);
-		//chainId = info.networkId == 'bsc-mainnet' ? 56 : 97;
-		//setNetwork(chainId);
-		//loadWallet();
-	}).catch(err=>{ 
-		//console.log(err);
-		console.log(err.error); 
-	});
-}
-
-/*
-function onWallet() {
-	console.log('On wallet');
-	if(bsc.isConnected()) {
-		console.log('Logout');
-		bsc.enable(); // ???
-	} else {
-		console.log('Enable');
-		bsc.enable();
-	}
-}
-*/
 
 async function calcGas(numx, web) {
 	let gas = { gasPrice: 20000000000, gasLimit: 25000 };

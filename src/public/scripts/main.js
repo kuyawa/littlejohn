@@ -143,8 +143,9 @@ function onTableClick(event) {
 	selectCurrency(code);
 }
 
-function onTrade(){
+async function onTrade(){
 	console.log('Trade', session.base, session.quote, session.buy?'BUY':'SELL', session.price);
+	if(!session.connected){ showMessage('Connect your wallet first'); return; }
 	if(session.buy){
 		code = session.quote;
 		buyTokens(code);
@@ -275,36 +276,31 @@ async function connectState(n) {
             $('connect').enabled = true;
             $('connect').innerHTML = 'CONNECTED';
             break;
+        case 3:
+            $('connect').enabled = false;
+            $('connect').innerHTML = 'DISCONNECTING';
+            break;
     }
 }
 
 async function connectWallet(silent=false) {
-    let ext = null; 
     connectState(1); // connecting
-	if(window.BinanceChain){ 
-		initWallet(); 
-        connectState(2); // connected
-	} else {
-        console.log('Error: Binance wallet not available');
-        if(!silent){ alert('Error: Wallet not available'); }
-        connectState(0); // Connect
-        return false;
-	}
-    return true;
+	initWallet(); 
+	session.connected = true;
+    connectState(2); // connected
 }
 
 async function disconnectWallet() {
-    $('connect').enabled = false;
-    $('connect').innerHTML = 'Disconnecting...';
+    connectState(3);
     // await disconnect(); ???
-    $('connect').innerHTML = 'Connect wallet';
-    $('connect').enabled = true;
+    connectState(0);
     $('user-address').innerHTML = 'Not connected';
     $('user-balance').innerHTML = 'Balance: 0.00';
 }
 
 function onWallet(){
     console.log('On wallet');
+    showMessage('');
     if(!session.connected){
         connectWallet();
     } else {
@@ -329,15 +325,6 @@ async function showBalance(address) {
     let res = await getBalance(address);
 }
 
-async function startWallet() {
-	// TODO: Metamask
-	if(window.ethereum && window.ethereum.isMetaMask){
-		console.log('Metamask is present');
-	}
-	if(window.BinanceChain){ initWallet(); }
-	else { walletWarning(); }
-}
-
 async function main() {
 	console.log('LittleJohn is running...');
 	if(checkMobile()){ showMessage('Not available in mobile devices'); }
@@ -346,7 +333,6 @@ async function main() {
 			selectCurrency('USD');
 		});
 	});
-	//setTimeout(startWallet, 3000);
 	enableEvents();
 }
 
