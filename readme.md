@@ -33,7 +33,8 @@ In order to add fiat tokens to your Binance wallet, select the Assets panel and 
 ## LittleJohn Video
 
 [![video](media/videoshot.jpg)](https://www.youtube.com/watch?v=X7UDRCKiQ5s)
-Link: https://www.youtube.com/watch?v=X7UDRCKiQ5s
+
+https://www.youtube.com/watch?v=X7UDRCKiQ5s
 
 Visit us at https://littlejohn.exchange
 
